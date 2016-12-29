@@ -1,6 +1,8 @@
 #ifndef RANGE_H
 #define RANGE_H
 
+#include <cstdlib>
+
 template <size_t... Data>
 struct template_array {
 

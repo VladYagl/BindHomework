@@ -3,6 +3,7 @@
 
 #include "range.h"
 #include <tuple>
+#include <cstdlib>
 
 template <size_t N>
 struct placeholder {};
