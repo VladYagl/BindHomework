@@ -1,4 +1,4 @@
-#include "bind.h";
+#include "bind.h"
 #include <iostream>
 #include <string>
 
