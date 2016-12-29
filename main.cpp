@@ -29,12 +29,15 @@ int main() {
 
 	auto shit_talking = bind(println, build_some_shit());
 	shit_talking();
-
+	
 	string s;
 	cin >> s;
 
 	auto repeat = bind(println, s);
 	repeat();
+
+	auto triple_sum = bind(sum, bind(sum, _1, _2), _3);
+	cout << triple_sum(5, 6, 7) << endl;
 
 	cout << inc(10) << endl;
 	cout << another_sum(1, 10) << endl;

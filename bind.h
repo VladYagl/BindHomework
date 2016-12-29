@@ -22,8 +22,8 @@ template <typename F, typename ... Args>
 struct bind_t;
 
 template <typename F, typename ... BindArgs, typename ... Args>
-auto convert_arguments(bind_t<F, BindArgs...> bind_func, Args&& ... args) {
-	return bind_func(std::forward<BindArgs>(args)...);
+auto convert_argument(bind_t<F, BindArgs...> bind_func, Args&& ... args) {
+	return bind_func(std::forward<Args>(args)...);
 }
 
 template <typename F, typename ... BindArgs>
