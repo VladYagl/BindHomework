@@ -33,7 +33,7 @@ struct bind_t {
 
 	template <typename ... Args>
 	auto operator()(Args const& ... args) const {
-		return call(range<sizeof...(BindArgs)>::result(), args...);
+		return call(typename range<sizeof...(BindArgs)>::result(), args...);
 	}
 
 private:
