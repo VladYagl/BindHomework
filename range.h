@@ -1,12 +1,12 @@
 #ifndef RANGE_H
 #define RANGE_H
 
-template <size_t... Indexes>
+template <size_t... Data>
 struct template_array {
 
 	template <size_t A>
 	struct add {
-		typedef template_array<Indexes..., A> result;
+		typedef template_array<Data..., A> result;
 	};
 };
 
