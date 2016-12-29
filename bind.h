@@ -9,12 +9,12 @@ template <size_t N>
 struct placeholder {};
 
 template <typename T, typename ... Args>
-auto convert_argument(T value, Args&& ... args) {
+auto& convert_argument(T& value, Args&& ... args) {
 	return value;
 }
 
 template <size_t N, typename ... Args>
-auto convert_argument(placeholder<N>, Args&& ... args) {
+auto& convert_argument(placeholder<N>, Args&& ... args) {
 	return std::get<N>(std::forward_as_tuple(args...));
 }
 
@@ -32,8 +32,8 @@ struct bind_t {
 		func(std::move(func)), bind_args(std::forward<BindArgs>(args)...) {}
 
 	template <typename ... Args>
-	auto operator()(Args const& ... args) const {
-		return call(typename range<sizeof...(BindArgs)>::result(), args...);
+	auto operator()(Args&& ... args) const {
+		return call(typename range<sizeof...(BindArgs)>::result(), std::forward<Args>(args)...);
 	}
 
 private:
@@ -41,8 +41,8 @@ private:
 	std::tuple<BindArgs...> bind_args;
 
 	template <size_t ... Indexes, typename ... Args>
-	auto call(template_array<Indexes...>, Args const& ... args) const {
-		return func(convert_argument(std::get<Indexes>(bind_args), args...)...);
+	auto call(template_array<Indexes...>, Args&& ... args) const {
+		return func(convert_argument(std::get<Indexes>(bind_args), std::forward<Args>(args)...)...);
 	}
 };
 
@@ -52,8 +52,8 @@ placeholder<2> _3;
 placeholder<3> _4;
 
 template <typename F, typename ... Args>
-bind_t<F, Args ...> bind(F func, Args ... args) {
-	return bind_t<F, Args ...>(std::move(func), std::move(args) ...);
+bind_t<F, Args ...> bind(F func, Args&& ... args) {
+	return bind_t<F, Args ...>(std::move(func), std::forward<Args>(args) ...);
 }
 
 #endif // BIND_H

@@ -4,44 +4,50 @@
 
 using namespace std;
 
-int sum(int a, int b) {
-	return a + b;
+int plain_inc(int a) {
+	return ++a;
 }
 
-void println(const string& text) {
-	cout << text << endl;
+int ref_inc(int& a) {
+	return ++a;
 }
 
-auto inc = bind(sum, _1, 1);
-auto another_sum = bind(sum, _1, _2);
-auto say_hello = bind(println, "hello!");
+int cosnt_ref_inc(int const& a) {
+	return a + 1;
+}
 
-string build_some_shit() {
-	string s = "";
-	for (int i = 60; i < 7000; i++) {
-		s += i % 10 + 60;
-	}
-	return s;
+int ref_ref_inc(int && a) {
+	return ++a;
 }
 
 int main() {
 	cout << "--BIND__TEST--" << endl;
 
-	auto shit_talking = bind(println, build_some_shit());
-	shit_talking();
-	
-	string s;
-	cin >> s;
+	int a = 10;
+	int& a_ref = a;
+	int const& a_const_ref = 10;
+	int&& a_ref_ref = 10;
 
-	auto repeat = bind(println, s);
-	repeat();
+	cout << bind(plain_inc, a)() << endl;
+	cout << bind(plain_inc, a_ref)() << endl;
+	cout << bind(plain_inc, a_const_ref)() << endl;
+	cout << bind(plain_inc, a_ref_ref)() << endl;
 
-	auto triple_sum = bind(sum, bind(sum, _1, _2), _3);
-	cout << triple_sum(5, 6, 7) << endl;
+	cout << bind(ref_inc, a)() << endl;
+	cout << bind(ref_inc, a_ref)() << endl;
+	//cout << bind(ref_inc, a_const_ref)() << endl;
+	cout << bind(ref_inc, a_ref_ref)() << endl;
 
-	cout << inc(10) << endl;
-	cout << another_sum(1, 10) << endl;
-	say_hello();
+	cout << bind(cosnt_ref_inc, a)() << endl;
+	cout << bind(cosnt_ref_inc, a_ref)() << endl;
+	cout << bind(cosnt_ref_inc, a_const_ref)() << endl;
+	cout << bind(cosnt_ref_inc, a_ref_ref)() << endl;
+
+	cout << bind(ref_inc, _1)(a) << endl;
+	cout << bind(ref_inc, _1)(a_ref) << endl;
+	//cout << bind(ref_inc, a_const_ref)() << endl;
+	cout << bind(ref_inc, _1)(a_ref_ref) << endl;
+
 
 	cout << "OWO IT WORKS" << endl;
 	return 0;
